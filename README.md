@@ -1,10 +1,6 @@
 $$\color{blue}sysfetch$$
 
-<div align="center">
-
-- simple system info fetch tool written in rust
-
-</div>
+$$\color{green}simple system info fetch tool written in rust$$
 
 <div align="center">
 
