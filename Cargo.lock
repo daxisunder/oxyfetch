@@ -58,6 +58,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "oxyfetch"
+version = "0.1.0"
+dependencies = [
+ "colored",
+ "sysinfo",
+]
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.106"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -84,14 +92,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
-]
-
-[[package]]
-name = "sysfetch"
-version = "0.1.0"
-dependencies = [
- "colored",
- "sysinfo",
 ]
 
 [[package]]

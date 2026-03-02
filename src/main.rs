@@ -1,7 +1,7 @@
 use colored::*;
 use sysinfo::{Disks, System};
 
-// ── Distro detection ────────────────────────────────────────────────────────
+// ── Distro detection ─────────────────────────────────────────────────────────
 
 fn read_os_id() -> String {
     std::fs::read_to_string("/etc/os-release")
@@ -12,7 +12,7 @@ fn read_os_id() -> String {
         .unwrap_or_else(|| "linux".into())
 }
 
-// ── ASCII logos ─────────────────────────────────────────────────────────────
+// ── ASCII logos ──────────────────────────────────────────────────────────────
 
 fn get_logo(distro: &str) -> (Vec<&'static str>, Color) {
     match distro {
@@ -144,7 +144,7 @@ fn get_logo(distro: &str) -> (Vec<&'static str>, Color) {
     }
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 fn bytes_to_gib(bytes: u64) -> f64 {
     bytes as f64 / 1024.0 / 1024.0 / 1024.0
@@ -155,6 +155,15 @@ fn format_uptime(seconds: u64) -> String {
     let minutes = (seconds % 3600) / 60;
     let secs = seconds % 60;
     format!("{}h {}m {}s", hours, minutes, secs)
+}
+
+fn truncate_mount(path: &str) -> String {
+    let parts: Vec<&str> = path.split('/').filter(|s| !s.is_empty()).collect();
+    if parts.len() > 3 {
+        format!("/{}/…", parts[..3].join("/"))
+    } else {
+        path.to_string()
+    }
 }
 
 fn make_info_lines(sys: &System) -> Vec<String> {
@@ -212,20 +221,22 @@ fn make_info_lines(sys: &System) -> Vec<String> {
     let disks = Disks::new_with_refreshed_list();
     for disk in &disks {
         let total = bytes_to_gib(disk.total_space());
+        if total == 0.0 {
+            continue; // skip unreadable/permission-denied mounts
+        }
         let used = total - bytes_to_gib(disk.available_space());
         let mount = disk.mount_point().to_string_lossy();
+        let mount_display = truncate_mount(&mount);
         lines.push(format!(
             "  {} {}  {:.1}/{:.1} GiB",
             "▸".bright_black(),
-            mount.cyan(),
+            mount_display.cyan(),
             used,
             total
         ));
     }
-
     lines.push(String::new());
 
-    // Color palette
     let palette = format!(
         "{}{}{}{}{}{}{}{}",
         "███".red(),
@@ -242,7 +253,7 @@ fn make_info_lines(sys: &System) -> Vec<String> {
     lines
 }
 
-// ── Main ─────────────────────────────────────────────────────────────────────
+// ── Main ──────────────────────────────────────────────────────────────────────
 
 fn main() {
     let mut sys = System::new_all();

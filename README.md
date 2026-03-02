@@ -23,3 +23,9 @@ This is not a serious project.
 I wrote this as a learning tool.
 
 </div>
+
+### installation
+
+- git clone <https://github.com/daxisunder/oxyfetch> && cd oxyfetch
+- cargo build --release
+- mv target/release/oxyfetch ~/.local/bin/
