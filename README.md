@@ -1,4 +1,4 @@
-$$\color{blue}sysfetch$$
+$\color{cyan}oxyfetch$
 
 <div align="center">
 
