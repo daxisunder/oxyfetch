@@ -24,7 +24,7 @@ I wrote this as a learning tool.
 
 </div>
 
-### installation
+$\color{green}installation$
 
 - git clone <https://github.com/daxisunder/oxyfetch> && cd oxyfetch
 - cargo build --release
