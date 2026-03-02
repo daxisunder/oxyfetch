@@ -10,6 +10,10 @@
 
 </div>
 
+<div align="center">
+
 This is a simple system info fetching application written in rust.
 This is not a serious project.
 I wrote this as a learning tool.
+
+</div>
